@@ -66,19 +66,35 @@ function deleteSite(i){
 }
 
 function visitSite(i) {
-    console.log("visit site no. " + i)
+    var url;
+    console.log(sites[i].siteUrl)
+    if (sites[i].siteUrl.match(/^https?:\/\//)) {
+        url = sites[i].siteUrl;
+    } else {
+        url = 'http://' + sites[i].siteUrl;
+    }
+    window.open(url, "_blank");
 }
 
 
 sbmtBtn.addEventListener("click", function() {
-    var oneSite = {
-        siteName: siteNameTag.value,
-        siteUrl: siteUrlTag.value
+    if (siteNameRegex.test(siteNameTag.value) && siteUrlRegex.test(siteUrlTag.value)) {
+        var oneSite = {
+            siteName: siteNameTag.value,
+            siteUrl: siteUrlTag.value
+        }
+        sites.push(oneSite);
+        localStorage.setItem("ourSites", JSON.stringify(sites));
+        displaySites();
+        clearInputs();
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please enter valid name and URL',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        })
     }
-    sites.push(oneSite);
-    localStorage.setItem("ourSites", JSON.stringify(sites));
-    displaySites();
-    clearInputs();
 });
 
 siteNameTag.addEventListener("input", function() {
