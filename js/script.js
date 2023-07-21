@@ -105,6 +105,8 @@ sbmtBtn.addEventListener("click", function() {
                 icon: 'error',
                 confirmButtonText: 'OK'
             })
+            siteNameTag.classList.remove("is-valid");
+            siteNameTag.classList.add("is-invalid");
         } else {
             var oneSite = {
                 siteName: siteNameTag.value,
