@@ -15,6 +15,10 @@ siteUrlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,
 function clearInputs() {
     siteNameTag.value = "";
     siteUrlTag.value = "";
+    siteNameTag.classList.remove("is-valid");
+    siteNameTag.classList.remove("is-invalid");
+    siteUrlTag.classList.remove("is-valid");
+    siteUrlTag.classList.remove("is-invalid");
 }
 
 function displaySites() {
@@ -76,17 +80,41 @@ function visitSite(i) {
     window.open(url, "_blank");
 }
 
+function checkNameRepeat() {
+    var x = 0;
+    for (let i = 0; i < sites.length; i++) {
+        const oldSite = sites[i].siteName;
+        if (siteNameTag.value == oldSite) {
+            x++;
+        }
+    }
+    if (x > 0) {
+        return true
+    } else {
+        return false
+    }
+}
+
 
 sbmtBtn.addEventListener("click", function() {
     if (siteNameRegex.test(siteNameTag.value) && siteUrlRegex.test(siteUrlTag.value)) {
-        var oneSite = {
-            siteName: siteNameTag.value,
-            siteUrl: siteUrlTag.value
+        if (checkNameRepeat()) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Site name is repeated!',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        } else {
+            var oneSite = {
+                siteName: siteNameTag.value,
+                siteUrl: siteUrlTag.value
+            }
+            sites.push(oneSite);
+            localStorage.setItem("ourSites", JSON.stringify(sites));
+            displaySites();
+            clearInputs();
         }
-        sites.push(oneSite);
-        localStorage.setItem("ourSites", JSON.stringify(sites));
-        displaySites();
-        clearInputs();
     } else {
         Swal.fire({
             title: 'Error!',
