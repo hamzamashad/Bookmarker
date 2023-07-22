@@ -9,7 +9,7 @@ var sites = [];
 
 // Regex to validate input
 var siteNameRegex = /.{3,}/,
-siteUrlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+siteUrlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
 
 function clearInputs() {
@@ -84,7 +84,7 @@ function checkNameRepeat() {
     var x = 0;
     for (let i = 0; i < sites.length; i++) {
         const oldSite = sites[i].siteName;
-        if (siteNameTag.value == oldSite) {
+        if (siteNameTag.value.toLowerCase() == oldSite.toLowerCase()) {
             x++;
         }
     }
